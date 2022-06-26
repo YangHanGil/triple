@@ -24,7 +24,7 @@ public class AuthController {
 
     //로그인
     @PostMapping("/login")
-    public Object userLogin(@RequestBody Login login) {
+    public String userLogin(@RequestBody Login login) {
         //로그인 아이디 성공.
         return userService.userLogin(login);
     }
