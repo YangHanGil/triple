@@ -26,9 +26,6 @@ public class AuthController {
     @PostMapping("/login")
     public Object userLogin(@RequestBody Login login) {
         //로그인 아이디 성공.
-    	
-    	System.out.println(login.getF_id());
-    	
         return userService.userLogin(login);
     }
 }

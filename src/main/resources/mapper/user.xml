@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.triple.model.user">
+<mapper namespace="com.triple.repository.Identify">
 
 	<select id="login" resultType="com.triple.model.user.User">
 		SELECT
@@ -13,5 +13,15 @@
 			AND F_PASS = #{f_pass}
 			AND F_STATUS = 'Y'
 	</select>
+	<select id="userLogin" resultType="com.triple.model.user.User"
+            parameterType="com.triple.model.user.Login">
+        SELECT
+			F_ID,
+			F_NAME
+        FROM T_USER
+        WHERE F_ID = #{f_id} 
+        	AND F_PASS = #{f_pass}
+        	AND F_STATUS = 'Y'
+    </select>
 
 </mapper>

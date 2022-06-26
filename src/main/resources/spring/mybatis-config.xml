@@ -3,6 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias type="com.glotech.ebs.model" alias="model"/>
+        <typeAlias type="com.triple.model" alias="model"/>
     </typeAliases>
 </configuration>
