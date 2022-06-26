@@ -41,27 +41,11 @@
     <script th:inline="javascript">
 
         function fnSubmit() {
-        	var formdata = {
-       			'f_id' : $('#F_ID').val(),
-       			'f_pass' : $('#F_PASS').val()
-       		}
-            
-         // Submit Action..
-// 			Common.call("http://localhost:8080/auth/login", 
-// 				formdata, 
-// 				function(data){
-// 					if (!data) {
-// 						alert();
-// 						EmailChk = false;
-// 						return false;
-// 					} else {
-// 						alert('등록 가능한 아이디입니다.');
-// 						EmailChk = true;
-// 					}
-// 				}, 
-// 				false
-// 			);
-	        	
+	     	var formdata = {
+				'f_id' : $('#F_ID').val(),
+				'f_pass' : $('#F_PASS').val()
+			}
+			      	
 			fetch("http://localhost:8080/auth/login",{
 				method : 'POST',
 				mode : 'cors',
