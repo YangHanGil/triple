@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triple.repository.Identify">
+
+	<select id="selectTplace" resultType="placeDto">
+		SELECT
+			F_SEQ,
+			F_PLACE,
+			F_ADD,
+			F_REG_TIME,
+			F_STATUS
+		FROM T_PLACE
+		WHERE F_STATUS = 'Y'
+	</select>
+
+</mapper>

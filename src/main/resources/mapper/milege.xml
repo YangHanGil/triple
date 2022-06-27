@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triple.repository.Identify">
+	
+	<!-- 마일리지 입출금내역 -->
+	<select id="selectTmilege" resultType="milegeDto">
+		SELECT 
+			F_SEQ,
+			F_ID,
+			F_REVIEW_SEQ,
+			F_MILEGE, <!-- 추가된 마일리지 -->
+			F_STATUS, <!-- 추가되거나 빠진 마일리지 -->
+			F_TOTAL, <!-- 현재까지 총 마일리지 -->
+			F_REG_TIME
+		FROM T_MILEGE
+		WHERE F_ID = #{f_id}
+	</select>
+	<!-- 마일리지 입출금 페이징 -->
+	<select id="selectTbCashMasterCnt">
+		SELECT COUNT(f_email)
+			FROM ( SELECT ROW_NUMBER() OVER(ORDER BY f_reg_time desc) rowNum,
+				F_SEQ,
+				F_ID,
+				F_REVIEW_SEQ,
+				F_MILEGE, <!-- 추가된 마일리지 -->
+				F_STATUS, <!-- 추가되거나 빠진 마일리지 -->
+				F_TOTAL, <!-- 현재까지 총 마일리지 -->
+				F_REG_TIME
+			FROM T_MILEGE
+			WHERE F_ID = #{f_id}
+		)t
+	</select>
+	
+	<insert id="insertTmilegeP" parameterType="com.triple.model.milege.MilegeDto">
+		INSERT INTO T_MILEGE(
+			F_ID,
+			F_REVIEW_SEQ,
+			F_MILEGE, <!-- 추가된 마일리지 -->
+			F_STATUS, <!-- 추가/상실 -->
+			F_TOTAL, <!-- 현재까지 총 마일리지 -->
+			F_REG_TIME
+		)
+		VALUES 
+		(
+			#{f_id},
+			#{f_review_seq},
+			#{f_milege}, <!-- 추가된 마일리지 -->
+			#{f_status}, <!-- 추가/상실 -->
+			(
+				(
+				SELECT SUM(F_MILEGE)
+				FROM T_MILEGE
+				WHERE F_ID = #{f_id}
+					AND F_STATUS = 'P'
+				) 
+				-
+				(
+				SELECT SUM(F_MILEGE)
+				FROM T_MILEGE
+				WHERE F_ID = #{f_id}
+					AND F_STATUS = 'M'
+				) 
+				+ ${f_milege}
+			), <!-- 현재까지 총 마일리지 -->
+			NOW()
+		)
+	</insert>
+	<insert id="insertTmilegeM">
+		INSERT INTO T_MILEGE(
+			F_ID,
+			F_REVIEW_SEQ,
+			F_MILEGE, <!-- 추가된 마일리지 -->
+			F_STATUS, <!-- 추가/상실 -->
+			F_TOTAL, <!-- 현재까지 총 마일리지 -->
+			F_REG_TIME
+		)
+		VALUES (
+			#{f_id},
+			#{f_review_seq},
+			#{f_milege}, <!-- 추가된 마일리지 -->
+			#{f_status}, <!-- 추가/상실 -->
+			(
+				(
+				SELECT SUM(F_MILEGE)
+				FROM T_MILEGE
+				WHERE F_ID = #{f_id}
+					AND F_STATUS = 'P'
+				) 
+				-
+				(
+				SELECT SUM(F_MILEGE)
+				FROM T_MILEGE
+				WHERE F_ID = #{f_id}
+					AND F_STATUS = 'M'
+				) 
+				- ${f_milege}
+			), <!-- 현재까지 총 마일리지 -->
+			NOW()
+		)
+	</insert>
+
+</mapper>

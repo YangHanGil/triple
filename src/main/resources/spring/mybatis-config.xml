@@ -2,7 +2,13 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <typeAliases>
         <typeAlias type="com.triple.model" alias="model"/>
+        <typeAlias type="com.triple.model.milege.MilegeDto" alias="milegeDto"/>
+        <typeAlias type="com.triple.model.review.ReviewDto" alias="reviewDto"/>
+        <typeAlias type="com.triple.model.place.PlaceDto" alias="placeDto"/>
+        <typeAlias type="com.triple.model.user.User" alias="user"/>
     </typeAliases>
+    
 </configuration>

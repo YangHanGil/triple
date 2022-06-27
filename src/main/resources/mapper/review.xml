@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triple.repository.Review">
+
+	<select id="selectTreview" resultType="reviewDto">
+		SELECT
+			F_SEQ,
+			F_ID, <!-- 작성자아이디 -->
+			F_PLACE_SEQ, <!-- 업체고유값 -->
+			F_REG_TIME,
+			F_STATUS
+		FROM T_REVIEW
+		WHERE F_PLACE_SEQ = #{f_place_seq}
+			AND F_STATUS = 'Y'
+	</select>
+	
+	<select id="selectTreviewCnt">
+		SELECT
+			COUNT(F_SEQ)
+		FROM T_REVIEW
+		WHERE F_PLACE_SEQ = #{f_place_seq}
+	</select>
+	
+	<insert id="insertTreview">
+		INSERT INTO T_REVIEW
+		(
+			F_ID,
+			F_PLACE_SEQ,
+			F_CONTENT,
+			F_PHOTO,
+			F_REG_TIME,
+			F_STATUS,
+		)
+		VALUES
+		(
+			#{f_id},
+			#{f_place_seq},
+			#{f_content},
+			#{f_photo},
+			#{f_reg_time},
+			'Y'
+		)
+	</insert>
+	
+	<update id="updateTreviewFstatus">
+		UPDATE T_REVIEW
+		SET	F_SEQ = #{f_yn}
+		WHERE F_SEQ = #{f_seq}
+	</update>
+</mapper>
