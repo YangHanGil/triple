@@ -9,5 +9,5 @@ import com.triple.model.place.PlaceDto;
 @Mapper
 public interface Place {
 
-	List<PlaceDto> selectTplace();
+	List<PlaceDto>  selectTplace();
 }
