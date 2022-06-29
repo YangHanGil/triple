@@ -43,6 +43,7 @@
 			F_REG_TIME
 		FROM TRIPLE.T_MILEGE
 		WHERE F_REVIEW_ID = #{reviewId}
+		ORDER BY F_REG_TIME DESC LIMIT 1
 	</select>
 	
 	<insert id="insertTmilege" parameterType="com.triple.model.review.ReviewDto">

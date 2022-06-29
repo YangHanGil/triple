@@ -49,7 +49,7 @@
 	
 	<update id="updateTreview" parameterType="com.triple.model.review.ReviewDto">
 		UPDATE TRIPLE.T_REVIEW
-		SET F_CONTENT = #{content}
+		SET F_CONTENT = #{content},
 			F_PHOTO = #{attachedPhotoIds}
 		WHERE F_REVIEW_ID = #{reviewId}
 	</update>

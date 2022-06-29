@@ -1,5 +1,8 @@
 package com.triple.controller.common;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,12 @@ public class AuthController {
 
     
     //리뷰작성
-    @PostMapping(value = "/insertTreview", produces ="application/json; charset=utf-8")
-    public boolean insertTreview(@RequestBody ReviewDto reviewDto) {
+    @PostMapping(value = "/insertTreview", produces ="application/json; charset=UTF-8")
+    public boolean insertTreview(@RequestBody ReviewDto reviewDto, HttpServletRequest request) {
 		boolean result = false;
+		
+		System.out.println(request.getCharacterEncoding());
+		System.out.println(reviewDto.getContent());
 		
 		switch (reviewDto.getAction()) {
 		case "ADD":

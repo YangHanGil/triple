@@ -84,11 +84,13 @@ public class ReviewService {
 
 		//본인이 작성한 리뷰의 마일리지를 총 마일리지 값에서 뺌.
 		int totalMilege = milege.selectTmilegeFtotal(reviewDto);
-		totalMilege -= contentMilege;
-		reviewDto.setTotal(totalMilege);
-		reviewDto.setStatus("M");
+		if(totalMilege > 0) {
+			totalMilege -= contentMilege;
+			reviewDto.setTotal(totalMilege);
+			reviewDto.setStatus("M");
+			milege.insertTmilege(reviewDto);
+		}
 		
-		milege.insertTmilege(reviewDto);
 		
 		result = review.deleteTreview(reviewDto);
 		
