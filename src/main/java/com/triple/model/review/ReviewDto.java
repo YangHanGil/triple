@@ -7,4 +7,14 @@ import lombok.Setter;
 @Setter
 public class ReviewDto {
 
+	String type;
+	String action;
+	String reviewId;
+	String content; //내용
+	String attachedPhotoIds;
+	String userId;
+	String placeId;
+	String status;
+	int milege;
+	int total;
 }

@@ -10,7 +10,7 @@
             <div class="col-lg-5">
                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                     <div class="card-header">
-                        <h3 class="text-center font-weight-bold my-4">Login</h3>
+                        <h3 class="text-center font-weight-bold my-4"></h3>
                     </div>
                     <div class="card-body">
                         <form id="frm" name="frm" method="post">
@@ -18,19 +18,11 @@
                             <div th:if="${param.error}">
                                 <p th:text="${exception}" class="alert alert-danger"></p>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="F_ID" name="F_ID" type="email" placeholder="ID" value="test" required />
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="F_PASS" name="F_PASS" type="password" value="test" placeholder="Password" required />
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" id="remember-me" name="remember-me" type="checkbox" />
-                                <label class="form-check-label" for="remember-me">Remember Password</label>
-                            </div>
                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                 <!-- <a class="small" href="javascript:">Forgot Password?</a> -->
-                                <a class="btn btn-primary" href="javascript:fnSubmit();">Login</a>
+                                <a class="btn btn-primary" href="javascript:fnSubmit('ADD');">INSERT REVIEW</a><br/>
+                                <a class="btn btn-primary" href="javascript:fnSubmit('MOD');">UPDATE REVIEW</a><br/>
+                                <a class="btn btn-primary" href="javascript:fnSubmit('DELETE');">DELETE REVIEW</a><br/>
                             </div>
                         </form>
                     </div>
@@ -40,13 +32,18 @@
     </div>
     <script th:inline="javascript">
 
-        function fnSubmit() {
+        function fnSubmit(action) {
 	     	let formdata = {
-				'f_id' : $('#F_ID').val(),
-				'f_pass' : $('#F_PASS').val()
+				"type" : "REVIEW",
+				"action" : action,
+				"reviewId" : "240a0658-dc5f-4878-9381-ebb7b2667772",
+				"content" : "좋아요!",
+				"attachedPhotoIds" : "e4d1a64e-a531-46de-88d0-ff0ed70c0bb8, afb0cef2-851d-4a50-bb07-9cc15cbdc332",
+				"userId" : "3ede0ef2-92b7-4817-a5f3-0c575361f745",
+				"placeId" : "2e4baf1c-5acb-4efb-a1af-eddada31b00f"
 			}
 			      	
-			fetch("http://localhost:8080/auth/login",{
+			fetch("http://localhost:8080/auth/insertTreview",{
 				method : 'POST',
 				mode : 'cors',
 				cache : 'no-cache',

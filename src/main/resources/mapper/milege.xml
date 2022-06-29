@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.triple.repository.Identify">
+<mapper namespace="com.triple.repository.Milege">
 	
 	<!-- 마일리지 입출금내역 -->
-	<select id="selectTmilege" resultType="milegeDto">
+	<select id="selectTmilege" resultType="com.triple.model.milege.MilegeDto">
 		SELECT 
 			F_SEQ,
 			F_ID,
@@ -13,7 +13,7 @@
 			F_STATUS, <!-- 추가되거나 빠진 마일리지 -->
 			F_TOTAL, <!-- 현재까지 총 마일리지 -->
 			F_REG_TIME
-		FROM T_MILEGE
+		FROM TRIPLE.T_MILEGE
 		WHERE F_ID = #{f_id}
 	</select>
 	<!-- 마일리지 입출금 페이징 -->
@@ -27,77 +27,52 @@
 				F_STATUS, <!-- 추가되거나 빠진 마일리지 -->
 				F_TOTAL, <!-- 현재까지 총 마일리지 -->
 				F_REG_TIME
-			FROM T_MILEGE
+			FROM TRIPLE.T_MILEGE
 			WHERE F_ID = #{f_id}
 		)t
 	</select>
 	
-	<insert id="insertTmilegeP" parameterType="com.triple.model.milege.MilegeDto">
-		INSERT INTO T_MILEGE(
+	<select id="selectTmilegeToDelete" parameterType="com.triple.model.review.ReviewDto" 
+		resultType="com.triple.model.milege.MilegeDto">
+		SELECT
 			F_ID,
-			F_REVIEW_SEQ,
+			F_REVIEW_ID,
 			F_MILEGE, <!-- 추가된 마일리지 -->
 			F_STATUS, <!-- 추가/상실 -->
 			F_TOTAL, <!-- 현재까지 총 마일리지 -->
 			F_REG_TIME
-		)
-		VALUES 
-		(
-			#{f_id},
-			#{f_review_seq},
-			#{f_milege}, <!-- 추가된 마일리지 -->
-			#{f_status}, <!-- 추가/상실 -->
-			(
-				(
-				SELECT SUM(F_MILEGE)
-				FROM T_MILEGE
-				WHERE F_ID = #{f_id}
-					AND F_STATUS = 'P'
-				) 
-				-
-				(
-				SELECT SUM(F_MILEGE)
-				FROM T_MILEGE
-				WHERE F_ID = #{f_id}
-					AND F_STATUS = 'M'
-				) 
-				+ ${f_milege}
-			), <!-- 현재까지 총 마일리지 -->
-			NOW()
-		)
-	</insert>
-	<insert id="insertTmilegeM">
-		INSERT INTO T_MILEGE(
+		FROM TRIPLE.T_MILEGE
+		WHERE F_REVIEW_ID = #{reviewId}
+	</select>
+	
+	<insert id="insertTmilege" parameterType="com.triple.model.review.ReviewDto">
+		INSERT INTO TRIPLE.T_MILEGE(
 			F_ID,
-			F_REVIEW_SEQ,
-			F_MILEGE, <!-- 추가된 마일리지 -->
+			F_REVIEW_ID,
+			F_MILEGE, <!-- 추가/상실된 마일리지 -->
 			F_STATUS, <!-- 추가/상실 -->
 			F_TOTAL, <!-- 현재까지 총 마일리지 -->
 			F_REG_TIME
 		)
 		VALUES (
-			#{f_id},
-			#{f_review_seq},
-			#{f_milege}, <!-- 추가된 마일리지 -->
-			#{f_status}, <!-- 추가/상실 -->
-			(
-				(
-				SELECT SUM(F_MILEGE)
-				FROM T_MILEGE
-				WHERE F_ID = #{f_id}
-					AND F_STATUS = 'P'
-				) 
-				-
-				(
-				SELECT SUM(F_MILEGE)
-				FROM T_MILEGE
-				WHERE F_ID = #{f_id}
-					AND F_STATUS = 'M'
-				) 
-				- ${f_milege}
-			), <!-- 현재까지 총 마일리지 -->
+			#{userId},
+			#{reviewId},
+			#{milege}, <!-- 추가/상실된 마일리지 -->
+			#{status}, <!-- P=추가/M=상실 -->
+			#{total}, <!-- 현재까지 총 마일리지 -->
 			NOW()
 		)
 	</insert>
-
+	
+	<select id="selectTmilegeFtotal" parameterType="com.triple.model.review.ReviewDto" resultType="int">
+		SELECT IFNULL(
+			(
+				SELECT 
+					F_TOTAL
+				FROM TRIPLE.T_MILEGE
+				WHERE F_ID = '3ede0ef2-92b7-4817-a5f3-0c575361f745'
+				ORDER BY F_REG_TIME DESC LIMIT 1
+			), 0
+		) AS F_TOTAL;
+	</select>
 </mapper>
