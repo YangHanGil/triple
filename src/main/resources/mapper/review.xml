@@ -24,6 +24,16 @@
 			AND F_STATUS = 'Y'
 	</select>
 	
+	<select id="selectTreviewFphoto" parameterType="com.triple.model.review.ReviewDto" resultType="String">
+		SELECT
+			F_PHOTO
+		FROM TRIPLE.T_REVIEW
+		WHERE F_PLACE_ID = #{placeId}
+			AND F_ID = #{userId}
+			AND F_REVIEW_ID = #{reviewId}
+			AND F_STATUS = 'Y'
+	</select>
+	
 	<insert id="insertTreview">
 		INSERT INTO TRIPLE.T_REVIEW
 		(
@@ -41,7 +51,7 @@
 			#{placeId},
 			#{reviewId},
 			#{content},
-			#{attachedPhotoIds},
+			#{photoId},
 			now(),
 			'Y'
 		)
@@ -50,7 +60,7 @@
 	<update id="updateTreview" parameterType="com.triple.model.review.ReviewDto">
 		UPDATE TRIPLE.T_REVIEW
 		SET F_CONTENT = #{content},
-			F_PHOTO = #{attachedPhotoIds}
+			F_PHOTO = #{photoId}
 		WHERE F_REVIEW_ID = #{reviewId}
 	</update>
 	

@@ -16,4 +16,6 @@ public interface Review {
 	boolean insertTreview(ReviewDto reviewDto);
 	boolean updateTreview(ReviewDto reviewDto);
 	boolean deleteTreview(ReviewDto reviewDto);
+	
+	String selectTreviewFphoto(ReviewDto reviewDto);
 }

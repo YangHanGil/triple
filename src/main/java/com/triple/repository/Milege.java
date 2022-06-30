@@ -12,7 +12,7 @@ public interface Milege {
 
 	List<MilegeDto> selectTmilege();
 	
-	MilegeDto selectTmilegeToDelete(ReviewDto reviewDto);
+	int selectTmilegeToDelete(ReviewDto reviewDto);
 	
 	boolean insertTmilege(ReviewDto reviewDto);
 	int selectTmilegeFtotal(ReviewDto reviewDto);

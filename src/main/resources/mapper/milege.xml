@@ -33,17 +33,12 @@
 	</select>
 	
 	<select id="selectTmilegeToDelete" parameterType="com.triple.model.review.ReviewDto" 
-		resultType="com.triple.model.milege.MilegeDto">
+		resultType="int">
 		SELECT
-			F_ID,
-			F_REVIEW_ID,
-			F_MILEGE, <!-- 추가된 마일리지 -->
-			F_STATUS, <!-- 추가/상실 -->
-			F_TOTAL, <!-- 현재까지 총 마일리지 -->
-			F_REG_TIME
+			SUM(F_MILEGE)
 		FROM TRIPLE.T_MILEGE
 		WHERE F_REVIEW_ID = #{reviewId}
-		ORDER BY F_REG_TIME DESC LIMIT 1
+		ORDER BY F_REG_TIME LIMIT 1
 	</select>
 	
 	<insert id="insertTmilege" parameterType="com.triple.model.review.ReviewDto">
