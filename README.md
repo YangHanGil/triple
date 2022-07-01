@@ -1,7 +1,7 @@
 # triple
 triple 과제
 
-springboot 실행하시면 포트번호 8080을 기본으로 작성해놨습니다. src/main/resource/application.properties 설정 localhost:8080
+springboot 실행하시면 포트번호 8080을 기본으로 작성해놨습니다. src/main/resource/application.properties 설정 localhost:8080,
 db는 요청하신대로 mysql이며 3306번 사용하고, 기본적인 db아이디나 비밀번호는 임의로 설정하신값으로 변경하셔도 됩니다.
 
 http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/auth-controller/insertTreview 로 들어가시면 REST API ui 확인하실 수 있습니다.
