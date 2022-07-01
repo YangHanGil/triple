@@ -1,7 +1,5 @@
 package com.triple.controller.common;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonObject;
 import com.triple.model.review.ReviewDto;
 import com.triple.service.review.ReviewService;
 
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,11 +29,10 @@ public class AuthController {
     
     //리뷰작성
     @PostMapping(value = "/insertTreview", produces ="application/json; charset=UTF-8")
-    public boolean insertTreview(@RequestBody ReviewDto reviewDto, HttpServletRequest request) {
-		boolean result = false;
-		
-		System.out.println(request.getCharacterEncoding());
-		System.out.println(reviewDto.getContent());
+	@ApiOperation(value = "리뷰 작성/수정/삭제 구분")
+    @ResponseBody
+    public Object insertTreview(@RequestBody ReviewDto reviewDto, HttpServletRequest request) {
+		String result = "";
 		
 		switch (reviewDto.getAction()) {
 		case "ADD":
@@ -45,6 +45,8 @@ public class AuthController {
 			result = reviewService.deleteTreview(reviewDto);
 			break;
 		}
+		JsonObject obj =new JsonObject();
+	    obj.addProperty("result", result);
 		
 		return result;
     }

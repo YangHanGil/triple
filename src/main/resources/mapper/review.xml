@@ -23,6 +23,15 @@
 		WHERE F_PLACE_ID = #{placeId}
 			AND F_STATUS = 'Y'
 	</select>
+	<!-- 장소에 작성된 리뷰가 있는지 -->
+	<select id="selectTreviewUserCnt" parameterType="String" resultType="int">
+		SELECT
+			COUNT(F_SEQ)
+		FROM TRIPLE.T_REVIEW
+		WHERE F_PLACE_ID = #{placeId}
+			AND F_ID = #{userId}
+			AND F_STATUS = 'Y'
+	</select>
 	
 	<select id="selectTreviewFphoto" parameterType="com.triple.model.review.ReviewDto" resultType="String">
 		SELECT

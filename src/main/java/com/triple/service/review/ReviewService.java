@@ -24,8 +24,11 @@ public class ReviewService {
 	@Autowired
     HttpSession session;
 	
-	public boolean insertTreview(ReviewDto reviewDto) {
-		boolean result = false;
+	public String insertTreview(ReviewDto reviewDto) {
+		String result = "";
+		
+		//이미 있을 경우 알림
+		if(review.selectTreviewUserCnt(reviewDto)>0)return "이미 작성된 리뷰가 있습니다";
 
 		int reviewCnt = review.selectTreviewCnt(reviewDto.getReviewId());
 		int contentMilege=0;
@@ -44,26 +47,30 @@ public class ReviewService {
 			}
 			reviewDto.setPhotoId(photoList);
 		}
-		System.out.println(contentMilege);
 
 		//현재 마일리지
 		int totalMilege = milege.selectTmilegeFtotal(reviewDto);
-		System.out.println(totalMilege);
 		//현재 마일리지 + 추가 마일리지
 		totalMilege += contentMilege;
 		reviewDto.setTotal(totalMilege);
 		reviewDto.setStatus("P");
 		
 		reviewDto.setMilege(contentMilege);
-		milege.insertTmilege(reviewDto);
 		
-		result = review.insertTreview(reviewDto);
+		try {
+			review.insertTreview(reviewDto);
+			milege.insertTmilege(reviewDto);
+			result = "리뷰가 작성되었습니다.";
+		} catch (Exception e) {
+			// TODO: handle exception
+			result = "리뷰작성 오류 " + e;
+		}
 		
 		return result;
 	}
 	
-	public boolean updateTreview(ReviewDto reviewDto) {
-		boolean result = false;
+	public String updateTreview(ReviewDto reviewDto) {
+		String result = "";
 
 		//포토여부 포토가 없으면 0 있으면 1. -> 없으면 TOTAL값에서 빼기 위함
 		int contentMilege = 0;
@@ -77,7 +84,6 @@ public class ReviewService {
 		}
 		
 		String isPhoto = review.selectTreviewFphoto(reviewDto);
-		System.out.println(isPhoto);
 		if(isPhoto!=null) //있었는데
 			contentMilege = reviewDto.getAttachedPhotoIds().size()>0 ? 0:-1;//있고/없고
 		else//없었는데
@@ -89,33 +95,42 @@ public class ReviewService {
 		totalMilege += contentMilege;
 		reviewDto.setTotal(totalMilege);
 		reviewDto.setStatus("P");
-		if(contentMilege!=0) milege.insertTmilege(reviewDto);
 		
-		
-		result = review.updateTreview(reviewDto);
+		try {
+			review.updateTreview(reviewDto);
+			if(contentMilege!=0) milege.insertTmilege(reviewDto);
+			result = "리뷰가 수정되었습니다.";
+		} catch (Exception e) {
+			// TODO: handle exception
+			result = "리뷰수정 오류 " + e;
+		}
 		
 		return result;
 	}
 	
-	public boolean deleteTreview(ReviewDto reviewDto) {
-		boolean result = false;
+	public String deleteTreview(ReviewDto reviewDto) {
+		String result = "";
 
 		//저장된 리뷰의 마일리지 내역 가져옴
 		int reviewPoint = milege.selectTmilegeToDelete(reviewDto);
 		int contentMilege = reviewPoint;
 		reviewDto.setMilege(-contentMilege);
 
-		//본인이 작성한 리뷰의 마일리지를 총 마일리지 값에서 뺌.
-		int totalMilege = milege.selectTmilegeFtotal(reviewDto);
-		if(totalMilege > 0) {
-			totalMilege -= contentMilege;
-			reviewDto.setTotal(totalMilege);
-			reviewDto.setStatus("M");
-			milege.insertTmilege(reviewDto);
+		try {
+			review.deleteTreview(reviewDto);
+			//본인이 작성한 리뷰의 마일리지를 총 마일리지 값에서 뺌.
+			int totalMilege = milege.selectTmilegeFtotal(reviewDto);
+			if(totalMilege > 0) {
+				totalMilege -= contentMilege;
+				reviewDto.setTotal(totalMilege);
+				reviewDto.setStatus("M");
+				milege.insertTmilege(reviewDto);
+			}
+			result = "리뷰가 삭제되었습니다.";
+		} catch (Exception e) {
+			// TODO: handle exception
+			result = "리뷰삭제 오류 " + e;
 		}
-		
-		
-		result = review.deleteTreview(reviewDto);
 		
 		return result;
 	}

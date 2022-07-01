@@ -27,6 +27,9 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
+	//https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
 	
 	
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
@@ -48,8 +51,10 @@ dependencies {
 	// mail
 	implementation group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
 	implementation group: 'org.json', name: 'json', version: '20220320'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 	implementation group: 'io.github.novacrypto', name: 'SHA256', version: '2022.01.17'
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
 }
 
 tasks.named('test') {

@@ -12,6 +12,7 @@ public interface Review {
 	List<ReviewDto> selectTreview();
 	
 	int selectTreviewCnt(String placeId);
+	int selectTreviewUserCnt(ReviewDto reviewDto);
 	
 	boolean insertTreview(ReviewDto reviewDto);
 	boolean updateTreview(ReviewDto reviewDto);
