@@ -1,6 +1,8 @@
 # triple
 triple 과제
 
+현 과제물은 eclipse 21년9월 버전으로 작성되었으며, java 버전은 jdk1.8입니다.
+
 springboot 실행하시면 포트번호 8080을 기본으로 작성해놨습니다. src/main/resource/application.properties 설정.
 
 db는 요청하신대로 mysql이며 3306번 사용하고, 기본적인 db아이디나 비밀번호는 임의로 설정하신값으로 변경하셔도 됩니다.
